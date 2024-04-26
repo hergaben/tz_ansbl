@@ -1,7 +1,7 @@
 #!/bin/bash
 
 GRAFANA_URL="http://192.168.2.136:3000/api/annotations"
-#API_KEY="Тут ключ Графаны"
+#АПИ_КЕЙ(ток английскими)="Тут ключ Графаны"
 
 TIME=$(date +%s)000
 
