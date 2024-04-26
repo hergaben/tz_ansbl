@@ -1,0 +1,48 @@
+---
+- name: Remove old Grafana packages
+  dnf:
+    name:
+      - grafana
+      - grafana-selinux
+    state: absent
+  become: true
+
+- name: Copy Grafana GPG key to target
+  copy:
+    src: templates/grafana.gpg.key
+    dest: /tmp/grafana.gpg.key
+  become: true
+
+- name: Import Grafana GPG key
+  rpm_key:
+    state: present
+    key: /tmp/grafana.gpg.key
+  become: true
+
+- name: Install Grafana
+  dnf:
+    name: https://dl.grafana.com/oss/release/grafana-10.2.0-1.x86_64.rpm
+    state: present
+  become: true
+
+- name: Configure Grafana
+  template:
+    src: grafana.ini.j2
+    dest: /etc/grafana/grafana.ini
+    owner: grafana
+    group: grafana
+    mode: 0644
+  notify: restart grafana
+
+- name: Grafana is running
+  systemd:
+    name: grafana-server
+    enabled: yes
+    state: started
+  become: true
+
+- name: Check Grafana is accessible
+  uri:
+    url: http://127.0.0.1:3000
+    method: GET
+    status_code: 200

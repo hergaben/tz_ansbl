@@ -1,0 +1,8 @@
+---
+- name: Deploy Prometheus
+  hosts: pgne_server
+  become: true
+  roles:
+    - prometheus
+    - node_exporter
+    - grafana

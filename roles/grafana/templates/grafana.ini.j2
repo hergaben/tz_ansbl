@@ -1,0 +1,8 @@
+[server]
+http_port = {{ grafana_http_port | default(3000) }}
+domain = {{ grafana_domain | default('localhost') }}
+
+[security]
+admin_user = {{ grafana_admin_user | default('admin') }}
+admin_password = {{ grafana_admin_password | default('admin') }}
+
