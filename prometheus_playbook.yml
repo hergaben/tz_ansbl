@@ -2,7 +2,14 @@
 - name: Deploy Prometheus
   hosts: pgne_server
   become: true
+  tasks:
+    - name: Add annotation in Grafana
+      local_action:
+        module: command
+        cmd: "{{ playbook_dir }}/add_annotation.sh"
+      run_once: true
   roles:
     - prometheus
     - node_exporter
     - grafana
+
